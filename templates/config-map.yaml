@@ -1,0 +1,88 @@
+{{- include "nectarlib.configmap" (list . "trove.configmap") -}}
+{{- define "trove.configmap" -}}
+data:
+  api-paste.ini: |-
+    [composite:trove]
+    use = call:trove.common.wsgi:versioned_urlmap
+    /: versions
+    /v1.0: troveapi
+
+    [pipeline:versions]
+    pipeline = healthcheck versionsapp
+
+    [app:versionsapp]
+    paste.app_factory = trove.versions:app_factory
+
+    [pipeline:troveapi]
+    pipeline = cors http_proxy_to_wsgi faultwrapper osprofiler authtoken authorization contextwrapper ratelimit extensions audit troveapp
+
+    [filter:extensions]
+    paste.filter_factory = trove.common.extensions:factory
+
+    [filter:authtoken]
+    paste.filter_factory = keystonemiddleware.auth_token:filter_factory
+
+    [filter:authorization]
+    paste.filter_factory = trove.common.auth:AuthorizationMiddleware.factory
+
+    [filter:cors]
+    paste.filter_factory = oslo_middleware.cors:filter_factory
+    oslo_config_project = trove
+
+    [filter:contextwrapper]
+    paste.filter_factory = trove.common.wsgi:ContextMiddleware.factory
+
+    [filter:faultwrapper]
+    paste.filter_factory = trove.common.wsgi:FaultWrapper.factory
+
+    [filter:ratelimit]
+    paste.filter_factory = trove.common.limits:RateLimitingMiddleware.factory
+
+    [filter:osprofiler]
+    paste.filter_factory = osprofiler.web:WsgiMiddleware.factory
+
+    [app:troveapp]
+    paste.app_factory = trove.common.api:app_factory
+
+    #Add this filter to log request and response for debugging
+    [filter:debug]
+    paste.filter_factory = trove.common.wsgi:Debug
+
+    [filter:http_proxy_to_wsgi]
+    use = egg:oslo.middleware#http_proxy_to_wsgi
+
+    [filter:healthcheck]
+    disable_by_file_path=/etc/trove/healthcheck_disable
+    paste.filter_factory=oslo_middleware:Healthcheck.factory
+    backends=disable_by_file
+    path=/healthcheck
+
+    [filter:audit]
+    paste.filter_factory = keystonemiddleware.audit:filter_factory
+    audit_map_file = /etc/trove/api_audit_map.conf
+    ignore_req_list = GET
+  api_audit_map.conf: |-
+    [DEFAULT]
+    # default target endpoint type
+    # should match the endpoint type defined in service catalog
+    target_endpoint_type = None
+
+    # possible end path of api requests
+    [path_keywords]
+    instances=instance
+    configuration=None
+    root=None
+    action=None
+    databases=database
+    users=user
+    flavors=flavor
+    backups=backup
+    configurations=configuration
+    versions=version
+    datastores=datastore
+    parameters=parameter
+
+    # map endpoint type defined in service catalog to CADF typeURI
+    [service_endpoints]
+    database=service/database
+{{- end -}}
