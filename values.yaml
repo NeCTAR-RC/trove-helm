@@ -92,6 +92,13 @@ job:
     enabled: false
 
 oslo_policy:
+  cluster:create: 'rule:admin'
+  cluster:delete: 'rule:admin'
+  cluster:force_delete: 'rule:admin'
+  cluster:index: 'rule:admin'
+  cluster:show: 'rule:admin'
+  cluster:show_instance: 'rule:admin'
+  cluster:action: 'rule:admin'
 
 image:
   pullPolicy: IfNotPresent
