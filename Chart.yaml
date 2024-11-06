@@ -13,5 +13,5 @@ dependencies:
   - bitnami-common
   version: 2.x.x
 - name: nectarlib
-  version: 1.7.8
+  version: 1.7.10
   repository: oci://registry.rc.nectar.org.au/nectar-helm
