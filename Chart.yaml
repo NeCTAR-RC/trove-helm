@@ -2,7 +2,7 @@ apiVersion: v2
 name: trove
 description: A Helm chart for openstack trove
 type: application
-version: 1.4.0
+version: 1.5.0
 appVersion: 13.0.0-63-gc3d853a2
 sources:
 - https://github.com/NeCTAR-RC/trove-helm.git
@@ -13,5 +13,5 @@ dependencies:
   - bitnami-common
   version: 2.x.x
 - name: nectarlib
-  version: 3.0.0
+  version: 3.0.1
   repository: oci://registry.rc.nectar.org.au/nectar-helm
