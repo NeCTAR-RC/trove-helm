@@ -1,9 +1,9 @@
 dependencies:
 - name: common
   repository: https://charts.bitnami.com/bitnami
-  version: 2.27.0
+  version: 2.30.0
 - name: nectarlib
   repository: oci://registry.rc.nectar.org.au/nectar-helm
-  version: 3.0.3
-digest: sha256:652f93e6cf013c9ddc997216bc955b008c8673e0484f57ef7c7b9b45d2c347b5
-generated: "2025-03-03T03:14:21.793509877Z"
+  version: 3.1.1
+digest: sha256:714f3269b51bc52b02471a3aab90b4d64d5cd51d16d966c28c499f0d4821b1dd
+generated: "2025-04-30T04:10:11.560837157Z"
