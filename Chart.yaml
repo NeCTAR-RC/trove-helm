@@ -2,7 +2,7 @@ apiVersion: v2
 name: trove
 description: A Helm chart for openstack trove
 type: application
-version: 1.5.2
+version: 1.5.3
 appVersion: 13.0.0-65-g9eb7993e
 sources:
 - https://github.com/NeCTAR-RC/trove-helm.git
