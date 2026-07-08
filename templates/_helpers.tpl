@@ -4,7 +4,7 @@ Vault annotations
 {{- define "trove.vaultAnnotations" -}}
 vault.hashicorp.com/role: "{{ .Values.vault.role }}"
 vault.hashicorp.com/agent-inject: "true"
-vault.hashicorp.com/agent-pre-populate-only: "true"
+vault.hashicorp.com/agent-pre-populate-only: "{{ .Values.vault.agentPrePopulateOnly }}"
 vault.hashicorp.com/agent-inject-status: "update"
 vault.hashicorp.com/secret-volume-path-secrets.conf: /etc/trove/trove.conf.d
 vault.hashicorp.com/agent-inject-secret-secrets.conf: "{{ .Values.vault.settings_secret }}"

@@ -3,6 +3,10 @@
 
 
 conf:
+  debug: false
+  # trove-api / trove-conductor worker counts.
+  api_workers: 2
+  conductor_workers: 2
   keystone:
     auth_url:
     username: trove
@@ -13,14 +17,24 @@ conf:
     account_id:
     domain_name:
     domain_id:
-  az_role_mapping:
+  az_role_mapping: []
   oslo_messaging_rabbit:
     amqp_durable_queues: true
+  instance:
+    keypair:
+    management:
+      networks: []
+      security_groups: []
 
 vault:
   role: k8s
   settings_secret: 'path/to/secret/in/vault'
   guestagent_conf:
+  # Vault Agent injects secrets once via an init container then exits (true, matches prod) vs.
+  # runs continuously as a sidecar, renewing the token/re-templating secrets for the life of the
+  # pod (false). Long-lived dev pods (live-reload, no pod restarts on code change) override to
+  # false so a session doesn't outlive the initial lease.
+  agentPrePopulateOnly: true
 
 api:
   port: 8779

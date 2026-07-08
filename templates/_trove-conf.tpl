@@ -1,15 +1,33 @@
 {{- define "trove-conf" }}
 [DEFAULT]
-trove_api_workers=2
-trove_conductor_workers=2
+trove_api_workers={{ .Values.conf.api_workers | default 2 }}
+trove_conductor_workers={{ .Values.conf.conductor_workers | default 2 }}
 
+debug = {{ .Values.conf.debug }}
 guest_config=/etc/trove/guestagent/trove-guestagent.conf
 
 control_exchange = trove
 taskmanager_manager=trove.taskmanager.manager.Manager
-cinder_service_type=volumev3
 network_driver = trove.network.neutron.NeutronDriver
-network_label_regex = .*
+
+{{- if .Values.conf.instance.keypair }}
+nova_keypair={{ .Values.conf.instance.keypair }}
+{{- end }}
+
+cinder_service_type=volumev3
+cinder_client_version=3
+enable_volume_az=True
+
+{{- if .Values.conf.instance.management.networks }}
+management_networks={{ join "," .Values.conf.instance.management.networks }}
+{{- end }}
+{{- if .Values.conf.instance.management.security_groups }}
+management_security_groups={{ join "," .Values.conf.instance.management.security_groups }}
+{{- end }}
+
+# Trove doesn't encrypt backups after Victoria, but we need this here for any
+# existing backups from Ussuri to successfully restore.
+backup_aes_cbc_key = default_aes_cbc_key
 
 max_accepted_volume_size = 1024
 max_volumes_per_tenant = 0
@@ -38,6 +56,10 @@ ensure_az=True
 az_role_mapping={{ join "," .Values.conf.az_role_mapping }}
 {{- end }}
 
+[network]
+network_isolation = True
+enable_access_check = False
+
 [database]
 connection_recycle_time=600
 
@@ -47,7 +69,7 @@ tcp_ports = 3306
 volume_support = True
 device_path = /dev/vdb
 ignore_users = os_admin, root
-ignore_dbs = mysql, information_schema, performance_schema
+ignore_dbs = mysql, information_schema, performance_schema, sys
 
 [oslo_middleware]
 enable_proxy_headers_parsing = true
