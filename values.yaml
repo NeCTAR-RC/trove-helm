@@ -43,7 +43,7 @@ api:
   apache:
     enabled: false
   image:
-    repository: registry.rc.nectar.org.au/nectar/trove
+    repository: registry.rc.nectar.org.au/kolla/ubuntu-source-trove-api
   replicaCount: 1
   pdb:
     enabled: false
@@ -74,7 +74,7 @@ conductor:
   command:
     - trove-conductor
   image:
-    repository: registry.rc.nectar.org.au/nectar/trove
+    repository: registry.rc.nectar.org.au/kolla/ubuntu-source-trove-conductor
   replicaCount: 1
   pdb:
     enabled: false
@@ -93,7 +93,7 @@ taskmanager:
   command:
     - trove-taskmanager
   image:
-    repository: registry.rc.nectar.org.au/nectar/trove
+    repository: registry.rc.nectar.org.au/kolla/ubuntu-source-trove-taskmanager
   replicaCount: 1
   pdb:
     enabled: false
