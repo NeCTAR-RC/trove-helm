@@ -36,6 +36,17 @@ vault:
   # false so a session doesn't outlive the initial lease.
   agentPrePopulateOnly: true
 
+# Sentry/GlitchTip error reporting via the shim in the kolla images.
+# When enabled, the vault agent renders the sentry_dsn key of
+# vault.settings_secret into env_file, and nectarlib injects the
+# SENTRY_* env vars into every container. Set environment (and
+# optionally tags) per site.
+sentry:
+  enabled: false
+  env_file: /vault/secrets/sentry.env
+  # environment: production-melbourne
+  # tags: {}
+
 api:
   port: 8779
   command:
