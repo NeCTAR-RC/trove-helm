@@ -92,6 +92,7 @@ service_type=database
 service_token_roles_required=True
 
 [oslo_messaging_rabbit]
+rabbit_transient_queues_ttl=600
 ssl=True
 rabbit_ha_queues=True
 amqp_durable_queues={{ .Values.conf.oslo_messaging_rabbit.amqp_durable_queues }}
