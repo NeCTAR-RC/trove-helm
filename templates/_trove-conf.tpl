@@ -93,7 +93,8 @@ service_token_roles_required=True
 
 [oslo_messaging_rabbit]
 ssl=True
-rabbit_ha_queues=True
+rabbit_quorum_queue={{ .Values.conf.oslo_messaging_rabbit.rabbit_quorum_queue }}
+rabbit_transient_quorum_queue={{ .Values.conf.oslo_messaging_rabbit.rabbit_transient_quorum_queue }}
 amqp_durable_queues={{ .Values.conf.oslo_messaging_rabbit.amqp_durable_queues }}
 
 [service_credentials]
