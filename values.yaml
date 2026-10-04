@@ -16,6 +16,8 @@ conf:
   az_role_mapping:
   oslo_messaging_rabbit:
     amqp_durable_queues: true
+    rabbit_quorum_queue: false
+    rabbit_transient_quorum_queue: false
 
 vault:
   role: k8s
