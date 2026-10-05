@@ -4,6 +4,9 @@ trove_api_workers=2
 trove_conductor_workers=2
 
 guest_config=/etc/trove/guestagent/trove-guestagent.conf
+# <datastore_manager>.cloudinit files shipped in the trove image, sent to
+# guests as nova userdata on instance create.
+cloudinit_location=/app/etc/trove/cloudinit
 
 control_exchange = trove
 taskmanager_manager=trove.taskmanager.manager.Manager
