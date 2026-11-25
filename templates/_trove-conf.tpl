@@ -29,6 +29,12 @@ management_security_groups={{ join "," .Values.conf.instance.management.security
 # existing backups from Ussuri to successfully restore.
 backup_aes_cbc_key = default_aes_cbc_key
 
+{{- if .Values.conf.restore_usage_timeout }}
+# How long the taskmanager waits for an instance restored from a backup to
+# become active (Trove's default is 3600).
+restore_usage_timeout = {{ .Values.conf.restore_usage_timeout }}
+{{- end }}
+
 max_accepted_volume_size = 1024
 max_volumes_per_tenant = 0
 max_backups_per_tenant = 50

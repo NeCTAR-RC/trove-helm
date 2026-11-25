@@ -7,6 +7,9 @@ conf:
   # trove-api / trove-conductor worker counts.
   api_workers: 2
   conductor_workers: 2
+  # Seconds the taskmanager waits for an instance restored from a backup to
+  # become active. Unset uses Trove's default of 3600.
+  restore_usage_timeout:
   keystone:
     auth_url:
     username: trove
